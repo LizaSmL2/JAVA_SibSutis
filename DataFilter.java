@@ -1,7 +1,10 @@
 package org.example;
 
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
+
 
 public class DataFilter {
     private static final String INTEGER_FILE = "integers.txt";
@@ -20,8 +23,13 @@ public class DataFilter {
         List<Double> floats = new ArrayList<>();
         List<String> strings = new ArrayList<>();
 
-        // Заглушка вместо обработки файлов
-        System.out.println("Обработка файлов пока не реализована.");
+        for (String file : inputFiles) {
+            processFile(file, integers, floats, strings);
+        }
+
+        writeFile(INTEGER_FILE, integers.stream().map(String::valueOf).collect(Collectors.toList()));
+        writeFile(FLOAT_FILE, floats.stream().map(String::valueOf).collect(Collectors.toList()));
+        writeFile(STRING_FILE, strings);
 
         printStatistics(integers, floats, strings);
     }
@@ -44,6 +52,17 @@ public class DataFilter {
         }
     }
 
+    private static void processFile(String fileName, List<Integer> integers, List<Double> floats, List<String> strings) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                classifyData(line, integers, floats, strings);
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка чтения файла: " + fileName);
+        }
+    }
+
     private static void classifyData(String line, List<Integer> integers, List<Double> floats, List<String> strings) {
         try {
             integers.add(Integer.parseInt(line));
@@ -53,6 +72,19 @@ public class DataFilter {
             } catch (NumberFormatException e2) {
                 strings.add(line);
             }
+        }
+    }
+
+    private static void writeFile(String fileName, List<String> data) {
+        if (data.isEmpty()) return;
+        Path path = Paths.get(outputPath + fileName);
+        try (BufferedWriter writer = Files.newBufferedWriter(path, appendMode ? StandardOpenOption.APPEND : StandardOpenOption.CREATE)) {
+            for (String line : data) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка записи в файл: " + fileName);
         }
     }
 
