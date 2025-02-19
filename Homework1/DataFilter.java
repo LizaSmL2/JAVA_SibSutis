@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Homework1;
 
 import java.io.*;
 import java.nio.file.*;
