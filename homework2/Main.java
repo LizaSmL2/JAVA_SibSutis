@@ -38,5 +38,8 @@ class MyThread extends Thread {
             }
         }
 
+        progressBar.append("] Done");
+        long endTime = System.currentTimeMillis();
+        System.out.println("\n" + progressBar + " - Time taken: " + (endTime - startTime) + " ms");
     }
 }
