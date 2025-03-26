@@ -1,0 +1,8 @@
+com\example\petstore\model\Pet.class
+com\example\petstore\PetstoreApplication.class
+com\example\petstore\model\Tag.class
+com\example\petstore\model\Category.class
+com\example\petstore\repository\PetRepository.class
+com\example\petstore\service\PetService.class
+com\example\petstore\ServletInitializer.class
+com\example\petstore\controller\PetController.class

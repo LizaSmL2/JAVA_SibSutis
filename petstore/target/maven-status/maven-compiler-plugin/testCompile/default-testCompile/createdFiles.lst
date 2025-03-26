@@ -1,0 +1,3 @@
+com\example\petstore\service\PetServiceTest.class
+com\example\petstore\controller\PetControllerTest.class
+com\example\petstore\PetstoreApplicationTests.class
